@@ -1,14 +1,9 @@
-import {React,useEffect}  from 'react'
-  
-const Allocation = (props) => {
+import { React, useEffect } from 'react'
 
-    
-
+const Allocation = props => {
   useEffect(() => {
-    console.log("updating")
+    console.log('updating')
   }, [props.deptData])
-
-
 
   return (
     <div className='row'>
@@ -27,12 +22,29 @@ const Allocation = (props) => {
             return (
               <tr key={index}>
                 <td>{data.department}</td>
-                <td>{props.selectedCurrency}{data.budget}</td>
                 <td>
-                  <button className='btn btn-primary' onClick={()=>{props.upd_allocation(data.department,"increase",10)}}>+</button>
+                  {props.selectedCurrency}
+                  {data.budget}
                 </td>
                 <td>
-                  <button className='btn btn-danger' onClick={()=>{props.upd_allocation(data.department,"decrease",10)}}>-</button>
+                  <button
+                    className='btn btn-primary'
+                    onClick={() => {
+                      props.upd_allocation(data.department, 'increase', 10)
+                    }}
+                  >
+                    +
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className='btn btn-danger'
+                    onClick={() => {
+                      props.upd_allocation(data.department, 'decrease', 10)
+                    }}
+                  >
+                    -
+                  </button>
                 </td>
                 <td>
                   <button className='btn btn-secondary'>x</button>

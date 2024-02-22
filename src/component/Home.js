@@ -31,10 +31,13 @@ export default function Home () {
   const [deptData, setDeptData] = useState(data)
 
   const upd_allocation = (dept, type, amount) => {
-    amount=parseInt(amount)
+    amount = parseInt(amount)
     if (type === 'increase') {
       if (amount > remaining) {
-        alert('Value should not excced the reamining fund {selectedCurrency}' + remaining)
+        alert(
+          'Value should not excced the reamining fund {selectedCurrency}' +
+            remaining
+        )
         return
       }
       let tempData = deptData
@@ -75,59 +78,52 @@ export default function Home () {
     console.log('updating')
   }, [deptData])
 
-    const [selectedDepartment, setSelectedDepartment] = useState('');
-    const [actionType, setActionType] = useState('increase');
-    const [amount, setAmount] = useState('');
-    const [selectedCurrency, setSelectedCurrency] = useState('$');
-  
-    const handleSaveClick = () => {
-      // Call the test function with the selected values
-      upd_allocation(selectedDepartment, actionType, amount);
-    };
+  const [selectedDepartment, setSelectedDepartment] = useState('')
+  const [actionType, setActionType] = useState('increase')
+  const [amount, setAmount] = useState('')
+  const [selectedCurrency, setSelectedCurrency] = useState('$')
 
-
-
+  const handleSaveClick = () => {
+    // Call the test function with the selected values
+    upd_allocation(selectedDepartment, actionType, amount)
+  }
 
   return (
     <div className='container-fluid'>
-      <h1>Company's Budget Allocation</h1>
+      <h2>Company's Budget Allocation</h2>
       <div className='row'>
         <div className='card bg-secondary col-md-3 m-1'>
-          <div className='card-body'>
-            Budget {selectedCurrency}<input type='text' value={totalBudget} />
+          <div className='card-body' style={{ color: 'white' }}>
+            Budget {selectedCurrency}
+            <input type='text' value={totalBudget} />
           </div>
         </div>
 
         <div className='card bg-success col-md-3 m-1'>
-          <div className='card-body '>Remaining {selectedCurrency}{remaining}</div>
+          <div className='card-body ' style={{ color: 'white' }}>
+            Remaining {selectedCurrency}
+            {remaining}
+          </div>
         </div>
 
         <div className='card bg-primary col-md-3 m-1'>
-          <div className='card-body'>
-            Spent So far : {selectedCurrency}{totalBudget - remaining}
+          <div className='card-body' style={{ color: 'white' }}>
+            Spent So far : {selectedCurrency}
+            {totalBudget - remaining}
           </div>
         </div>
 
         <div className='dropdown col-md-2 m-1'>
-        <select
+          <select
             className='form-select'
             aria-label='Default select example'
             value={selectedCurrency}
-            onChange={(e) => setSelectedCurrency(e.target.value)}
+            onChange={e => setSelectedCurrency(e.target.value)}
           >
-            <option value='$'>
-              Currency ($ Dollar)
-            </option>
-            <option value='£' >
-              Currency ( £ Pound)
-            </option>
-            <option value='€' >
-              Currency (€ Euro)
-            </option>
-            <option value='₹' >
-              Currency (₹ Rupee)
-            </option>
-          
+            <option value='$'>Currency ($ Dollar)</option>
+            <option value='£'>Currency ( £ Pound)</option>
+            <option value='€'>Currency (€ Euro)</option>
+            <option value='₹'>Currency (₹ Rupee)</option>
           </select>
         </div>
       </div>
@@ -140,61 +136,61 @@ export default function Home () {
       />
       <h2>Change Allocation</h2>
       <div className='row'>
-      <div className='col-md-3'>
-        <div className='input-group mb-3'>
-          <select
-            className='form-select'
-            aria-label='Default select example'
-            value={selectedDepartment}
-            onChange={(e) => setSelectedDepartment(e.target.value)}
-          >
-            <option value='' disabled>
-              Department
-            </option>
-            {deptData.map((data, index) => (
-              <option key={index} value={data.department}>
-                {data.department}
+        <div className='col-md-3'>
+          <div className='input-group mb-3'>
+            <select
+              className='form-select'
+              aria-label='Default select example'
+              value={selectedDepartment}
+              onChange={e => setSelectedDepartment(e.target.value)}
+            >
+              <option value='' disabled>
+                Department
               </option>
-            ))}
-          </select>
+              {deptData.map((data, index) => (
+                <option key={index} value={data.department}>
+                  {data.department}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div className='col-md-3'>
-        <div className='input-group mb-3'>
-          <select
-            className='form-select'
-            aria-label='Default select example'
-            value={actionType}
-            onChange={(e) => setActionType(e.target.value)}
-          >
-            <option value='increase'>Add</option>
-            <option value='decrease'>Subtract</option>
-          </select>
+        <div className='col-md-3'>
+          <div className='input-group mb-3'>
+            <select
+              className='form-select'
+              aria-label='Default select example'
+              value={actionType}
+              onChange={e => setActionType(e.target.value)}
+            >
+              <option value='increase'>Add</option>
+              <option value='decrease'>Subtract</option>
+            </select>
+          </div>
+        </div>
+        <div className='col-md-3'>
+          <div className='input-group mb-3'>
+            <span className='mx-2'>{selectedCurrency}</span>{' '}
+            <input
+              type='number'
+              className='form-control'
+              aria-label='Text input with dropdown button'
+              name='amount'
+              min={0}
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className='col-md-3'>
+          <div className='input-group mb-3'>
+            <button className='btn btn-primary' onClick={handleSaveClick}>
+              Save
+            </button>
+          </div>
         </div>
       </div>
-      <div className='col-md-3'>
-        <div className='input-group mb-3'>
-          <span className='mx-2'>{selectedCurrency}</span>{' '}
-          <input
-            type='number'
-            className='form-control'
-            aria-label='Text input with dropdown button'
-            name='amount'
-            min={0}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className='col-md-3'>
-        <div className='input-group mb-3'>
-          <button className='btn btn-primary' onClick={handleSaveClick}>
-            Save
-          </button>
-        </div>
-      </div>
-    </div>
     </div>
   )
 }
