@@ -4,7 +4,7 @@ import Home from './component/Home'
 function App () {
   return (
     <div>
-      <div className='container'>
+      <div className='container my-2'>
         <div className='row'>
           <div className='col text-center'>
             <h1 className='display-6 fw-bold animate__animated animate__fadeIn infinite'>
