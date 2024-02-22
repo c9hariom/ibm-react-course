@@ -27,7 +27,7 @@ const Allocation = (props) => {
             return (
               <tr key={index}>
                 <td>{data.department}</td>
-                <td>${data.budget}</td>
+                <td>{props.selectedCurrency}{data.budget}</td>
                 <td>
                   <button className='btn btn-primary' onClick={()=>{props.upd_allocation(data.department,"increase",10)}}>+</button>
                 </td>

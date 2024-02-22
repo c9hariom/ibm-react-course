@@ -34,7 +34,7 @@ export default function Home () {
     amount=parseInt(amount)
     if (type === 'increase') {
       if (amount > remaining) {
-        alert('Value should not excced the reamining fund $' + remaining)
+        alert('Value should not excced the reamining fund {selectedCurrency}' + remaining)
         return
       }
       let tempData = deptData
@@ -49,7 +49,7 @@ export default function Home () {
       console.log(remaining)
     } else if (type === 'decrease') {
       // if(amount>remaining){
-      //   alert("Value is already $0")
+      //   alert("Value is already {selectedCurrency}0")
       //   return
       // }
       let tempData = deptData
@@ -57,7 +57,7 @@ export default function Home () {
         if (tempData[i].department === dept) {
           if (deptData[i].budget < amount) {
             alert(
-              'amount to decrease is already less than the assigned $' +
+              'amount to decrease is already less than the assigned {selectedCurrency}' +
                 tempData.amount
             )
             break
@@ -78,6 +78,7 @@ export default function Home () {
     const [selectedDepartment, setSelectedDepartment] = useState('');
     const [actionType, setActionType] = useState('increase');
     const [amount, setAmount] = useState('');
+    const [selectedCurrency, setSelectedCurrency] = useState('$');
   
     const handleSaveClick = () => {
       // Call the test function with the selected values
@@ -93,51 +94,41 @@ export default function Home () {
       <div className='row'>
         <div className='card bg-secondary col-md-3 m-1'>
           <div className='card-body'>
-            Budget $<input type='text' value={totalBudget} />
+            Budget {selectedCurrency}<input type='text' value={totalBudget} />
           </div>
         </div>
 
         <div className='card bg-success col-md-3 m-1'>
-          <div className='card-body '>Remaining ${remaining}</div>
+          <div className='card-body '>Remaining {selectedCurrency}{remaining}</div>
         </div>
 
         <div className='card bg-primary col-md-3 m-1'>
           <div className='card-body'>
-            Spent So far : ${totalBudget - remaining}
+            Spent So far : {selectedCurrency}{totalBudget - remaining}
           </div>
         </div>
 
         <div className='dropdown col-md-2 m-1'>
-          <button
-            className='btn btn-secondary dropdown-toggle'
-            type='button'
-            data-bs-toggle='dropdown'
-            aria-expanded='false'
+        <select
+            className='form-select'
+            aria-label='Default select example'
+            value={selectedCurrency}
+            onChange={(e) => setSelectedCurrency(e.target.value)}
           >
-            Currency ($ Dollar)
-          </button>
-          <ul className='dropdown-menu'>
-            <li>
-              <a className='dropdown-item' href='#'>
-                $ Dollar
-              </a>
-            </li>
-            <li>
-              <a className='dropdown-item' href='#'>
-                £ Pound
-              </a>
-            </li>
-            <li>
-              <a className='dropdown-item' href='#'>
-                € Euro
-              </a>
-            </li>
-            <li>
-              <a className='dropdown-item' href='#'>
-                ₹ Rupee
-              </a>
-            </li>
-          </ul>
+            <option value='$'>
+              Currency ($ Dollar)
+            </option>
+            <option value='£' >
+              Currency ( £ Pound)
+            </option>
+            <option value='€' >
+              Currency (€ Euro)
+            </option>
+            <option value='₹' >
+              Currency (₹ Rupee)
+            </option>
+          
+          </select>
         </div>
       </div>
       <h2>Allocation</h2>
@@ -145,6 +136,7 @@ export default function Home () {
         key={JSON.stringify(deptData)}
         deptData={deptData}
         upd_allocation={upd_allocation}
+        selectedCurrency={selectedCurrency}
       />
       <h2>Change Allocation</h2>
       <div className='row'>
@@ -183,7 +175,7 @@ export default function Home () {
       </div>
       <div className='col-md-3'>
         <div className='input-group mb-3'>
-          <span className='mx-2'>$</span>{' '}
+          <span className='mx-2'>{selectedCurrency}</span>{' '}
           <input
             type='number'
             className='form-control'
