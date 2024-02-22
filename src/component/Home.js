@@ -2,8 +2,9 @@ import { react, useEffect, useState } from 'react'
 import Allocation from './Allocation'
 
 export default function Home () {
-  const [totalBudget, setTotalBudget] = useState(2000)
-  let [remaining, setRemaining] = useState(1750)
+  let [totalBudget, setTotalBudget] = useState(2000)
+  let [remaining, setRemaining] = useState(totalBudget - 250)
+  let [spent, setSpent] = useState(totalBudget - remaining)
 
   const data = [
     {
@@ -35,7 +36,9 @@ export default function Home () {
     if (type === 'increase') {
       if (amount > remaining) {
         alert(
-          'Value should not excced the reamining fund '+selectedCurrency+''+
+          'Value should not excced the reamining fund ' +
+            selectedCurrency +
+            '' +
             remaining
         )
         return
@@ -45,28 +48,28 @@ export default function Home () {
         if (tempData[i].department === dept) {
           tempData[i].budget += amount
           setRemaining((remaining -= amount))
+          setSpent(spent + amount)
         }
       }
       setDeptData(tempData)
 
       console.log(remaining)
     } else if (type === 'decrease') {
-      // if(amount>remaining){
-      //   alert("Value is already {selectedCurrency}0")
-      //   return
-      // }
       let tempData = deptData
       for (let i = 0; i < deptData.length; i++) {
         if (tempData[i].department === dept) {
           if (deptData[i].budget < amount) {
             alert(
-              'amount to decrease is already less than the assigned'+selectedCurrency+'' +
+              'amount to decrease is already less than the assigned' +
+                selectedCurrency +
+                '' +
                 tempData.amount
             )
             break
           }
           tempData[i].budget -= amount
           setRemaining((remaining += amount))
+          setSpent(spent - amount)
         }
       }
       setDeptData(tempData)
@@ -84,7 +87,6 @@ export default function Home () {
   const [selectedCurrency, setSelectedCurrency] = useState('$')
 
   const handleSaveClick = () => {
-    // Call the test function with the selected values
     upd_allocation(selectedDepartment, actionType, amount)
   }
 
@@ -93,9 +95,24 @@ export default function Home () {
       <h2>Company's Budget Allocation</h2>
       <div className='row'>
         <div className='card bg-secondary col-md-3 m-1'>
-          <div className='card-body' style={{ color: 'white' }}>
-            Budget {selectedCurrency}
-            <input type='text' value={totalBudget} />
+          <div
+            className='card-body d-flex align-items-center'
+            style={{ color: 'white' }}
+          >
+            Budget
+            <span className='mx-2'>{selectedCurrency}</span>
+            <input
+              type='number'
+              className='form-control'
+              aria-label='Text input with dropdown button'
+              name='amount'
+              min={0}
+              value={totalBudget}
+              onChange={e => {
+                setTotalBudget(e.target.value)
+                setRemaining(totalBudget - spent)
+              }}
+            />
           </div>
         </div>
 
@@ -109,7 +126,7 @@ export default function Home () {
         <div className='card bg-primary col-md-3 m-1'>
           <div className='card-body' style={{ color: 'white' }}>
             Spent So far : {selectedCurrency}
-            {totalBudget - remaining}
+            {spent}
           </div>
         </div>
 
