@@ -35,7 +35,7 @@ export default function Home () {
     if (type === 'increase') {
       if (amount > remaining) {
         alert(
-          'Value should not excced the reamining fund {selectedCurrency}' +
+          'Value should not excced the reamining fund '+selectedCurrency+''+
             remaining
         )
         return
@@ -60,7 +60,7 @@ export default function Home () {
         if (tempData[i].department === dept) {
           if (deptData[i].budget < amount) {
             alert(
-              'amount to decrease is already less than the assigned {selectedCurrency}' +
+              'amount to decrease is already less than the assigned'+selectedCurrency+'' +
                 tempData.amount
             )
             break
