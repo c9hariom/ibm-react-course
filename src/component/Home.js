@@ -108,10 +108,12 @@ export default function Home () {
               name='amount'
               min={0}
               value={totalBudget}
-              onChange={e => {
-                setTotalBudget(e.target.value)
-                setRemaining(totalBudget - spent)
+              onChange={async e => {
+                const newBudget = e.target.value;
+                await setTotalBudget(() => newBudget);
+                setRemaining(prevRemaining => totalBudget- spent);
               }}
+              
             />
           </div>
         </div>
