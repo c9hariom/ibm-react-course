@@ -110,7 +110,11 @@ export default function Home () {
               value={totalBudget}
               onChange={async e => {
                 const newBudget = e.target.value;
-                await setTotalBudget(() => newBudget);
+                if(newBudget<spent){
+                  alert("you cant not reduce the buget value lower than spending ie"+selectedCurrency+''+spent)
+                  return
+                }
+                setTotalBudget(() => newBudget);
                 setRemaining(prevRemaining => totalBudget- spent);
               }}
               
