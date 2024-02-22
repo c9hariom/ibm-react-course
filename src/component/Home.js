@@ -4,6 +4,9 @@ import Allocation from './Allocation'
 export default function Home() {
 
 
+  const totalBudget = 2000;
+  let remaining = 1750;
+
   const data = [
     {
       department: 'Marketing',
@@ -26,6 +29,32 @@ export default function Home() {
       budget: 50
     }
   ]
+
+  const upd_allocation = (dept, type,amount)=>{
+    if(type==="increase"){
+      if(amount>remaining){
+        alert("Value should not excced the reamining fund $"+remaining)
+      }
+      let tempData = deptData;
+      for(let i=0; i<deptData.length;i++){
+        if(tempData[i].department===dept){
+          tempData[i].budget+=10;
+          remaining-=10;
+        }
+      }
+      setDeptData(tempData)
+    } else if(type==='decrease'){
+      let tempData = deptData;
+      for(let i=0; i<deptData.length;i++){
+        if(tempData[i].department===dept){
+          tempData[i].budget-=10;
+          remaining+=10;
+        }
+      }
+      setDeptData(tempData)
+    }
+  }
+
 
   const [deptData, setDeptData] = useState(data)
 
@@ -82,7 +111,7 @@ export default function Home() {
           </div>
         </div>
         <h2>Allocation</h2>
-        <Allocation deptData={deptData}/>
+        <Allocation deptData={deptData} upd_allocation={upd_allocation}/>
         <h2>Change Allocation</h2>
         <div className="row">
           <div className="col-md-3">
